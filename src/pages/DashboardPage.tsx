@@ -72,7 +72,7 @@ export function DashboardPage() {
             variant="body2"
             color="text.secondary"
           >
-            Proyectos y tareas
+            Selecciona un proyecto para ver sus tareas o agregar una.
           </Typography>
         </Box>
 
