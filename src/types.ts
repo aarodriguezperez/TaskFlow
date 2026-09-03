@@ -20,3 +20,29 @@ export interface AuthResponse {
     (import.meta.env.DEV ? '/api' : 'https://d3ujwk09smrk9z.cloudfront.net')
   
   export const TOKEN_KEY = 'jwt-auth-demo-token'
+
+
+// TASK
+
+  export type TaskStatus = 'TODO' | 'IN_PROGRESS' | 'DONE'
+
+  export type TaskPriority = 'LOW' | 'MED' | 'HIGH'
+
+  export interface Task {
+    id: number
+    title: string
+    description: string | null
+    status: TaskStatus
+    priority: TaskPriority
+    projectId: number
+    assigneeId: number | null
+    dueDate: string | null
+  }
+
+  export interface NewTask {
+    title: string
+    description?: string
+    priority: TaskPriority
+    assigneeId?: number | null
+    dueDate?: string | null
+  }
