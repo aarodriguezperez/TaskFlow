@@ -39,7 +39,7 @@ export function LoginPage() {
         JWT Auth Demo
       </Typography>
       <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
-        Fase 1 — servicio + hook + pantalla de login.
+        Tarea — Implementación de GET y POST para Task.
       </Typography>
 
       <Paper sx={{ p: 3 }}>
