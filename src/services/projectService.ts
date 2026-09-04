@@ -6,7 +6,41 @@ export async function getProjects(): Promise<Project[]> {
   return data
 }
 
-export async function createProject(body: NewProject): Promise<Project> {
-  const { data } = await httpClient.post<Project>('/projects', body)
+export async function getProject(
+  projectId: number
+): Promise<Project> {
+  const { data } = await httpClient.get<Project>(
+    `/projects/${projectId}`
+  )
+
   return data
+}
+
+export async function createProject(
+  body: NewProject
+): Promise<Project> {
+  const { data } = await httpClient.post<Project>(
+    '/projects',
+    body
+  )
+
+  return data
+}
+
+export async function updateProject(
+  projectId: number,
+  body: NewProject
+): Promise<Project> {
+  const { data } = await httpClient.put<Project>(
+    `/projects/${projectId}`,
+    body
+  )
+
+  return data
+}
+
+export async function deleteProject(
+  projectId: number
+): Promise<void> {
+  await httpClient.delete(`/projects/${projectId}`)
 }

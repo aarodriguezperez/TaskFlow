@@ -18,6 +18,7 @@ export function useTaskForm({
   const [dueDate, setDueDate] = useState('')
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [assigneeId, setAssigneeId] = useState<number | null>(null)
 
   const valid =
     projectId !== null &&
@@ -38,12 +39,14 @@ export function useTaskForm({
         title: title.trim(),
         description: description.trim() || undefined,
         priority,
+        assigneeId,
         dueDate: dueDate || null,
       })
 
       setTitle('')
       setDescription('')
       setPriority('MED')
+      setAssigneeId(null)
       setDueDate('')
 
       onSuccess?.()
@@ -65,6 +68,8 @@ export function useTaskForm({
     setDescription,
     priority,
     setPriority,
+    assigneeId,
+    setAssigneeId,
     dueDate,
     setDueDate,
     submitting,

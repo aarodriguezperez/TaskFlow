@@ -46,3 +46,12 @@ export interface AuthResponse {
     assigneeId?: number | null
     dueDate?: string | null
   }
+
+
+  export interface UpdateTask {
+    title: string
+    description: string | null
+    priority: TaskPriority
+    assigneeId: number | null
+    dueDate: string | null
+  }

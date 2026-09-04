@@ -13,6 +13,8 @@ interface TaskFormProps {
   setDescription: (value: string) => void
   priority: TaskPriority
   setPriority: (value: TaskPriority) => void
+  assigneeId: number | null
+  setAssigneeId: (value: number | null) => void
   dueDate: string
   setDueDate: (value: string) => void
   submitting: boolean
@@ -28,6 +30,8 @@ export function TaskForm({
   setDescription,
   priority,
   setPriority,
+  assigneeId,
+  setAssigneeId,
   dueDate,
   setDueDate,
   submitting,
@@ -70,6 +74,36 @@ export function TaskForm({
           <MenuItem value="LOW">Baja</MenuItem>
           <MenuItem value="MED">Media</MenuItem>
           <MenuItem value="HIGH">Alta</MenuItem>
+        </TextField>
+
+        <TextField
+          select
+          label="Responsable"
+          value={assigneeId ?? ''}
+          onChange={(e) =>
+            setAssigneeId(
+              e.target.value === ''
+                ? null
+                : Number(e.target.value)
+            )
+          }
+          fullWidth
+        >
+          <MenuItem value="">
+            Sin responsable
+          </MenuItem>
+
+          <MenuItem value={1}>
+            Ana
+          </MenuItem>
+
+          <MenuItem value={2}>
+            Luis
+          </MenuItem>
+
+          <MenuItem value={3}>
+            Admin
+          </MenuItem>
         </TextField>
 
         <TextField

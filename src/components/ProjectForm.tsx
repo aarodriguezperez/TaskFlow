@@ -2,7 +2,6 @@ import Alert from '@mui/material/Alert'
 import Button from '@mui/material/Button'
 import Stack from '@mui/material/Stack'
 import TextField from '@mui/material/TextField'
-import Typography from '@mui/material/Typography'
 
 interface ProjectFormProps {
   name: string
@@ -27,7 +26,6 @@ export function ProjectForm({
 }: ProjectFormProps) {
   return (
     <Stack spacing={2} component="form" onSubmit={handleSubmit}>
-      <Typography variant="h6">Nuevo proyecto</Typography>
 
       {error && <Alert severity="error">{error}</Alert>}
 
