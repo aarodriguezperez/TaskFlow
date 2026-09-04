@@ -4,7 +4,7 @@ TaskFlow es una aplicación web para la gestión de proyectos y tareas, desarrol
 
 Consume una API REST protegida mediante autenticación **JWT** y permite realizar operaciones CRUD sobre proyectos y sus tareas.
 
-## Demo
+## App
 
 https://aarodriguezperez.github.io/TaskFlow/
 
