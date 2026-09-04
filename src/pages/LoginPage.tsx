@@ -36,10 +36,10 @@ export function LoginPage() {
   return (
     <Box maxWidth={480} mx="auto" mt={8}>
       <Typography variant="h4" gutterBottom>
-        JWT Auth Demo
+        TaskFlow
       </Typography>
       <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
-        Tarea — Implementación de GET y POST para Task.
+        Inicia sesión para gestionar tus tareas y proyectos.
       </Typography>
 
       <Paper sx={{ p: 3 }}>
