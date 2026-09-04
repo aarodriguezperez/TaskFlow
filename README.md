@@ -2,11 +2,9 @@
 
 TaskFlow es una aplicación web para la gestión de proyectos y tareas, desarrollada con **React, TypeScript y Vite**.
 
-La aplicación consume una API REST protegida mediante autenticación **JWT** y permite administrar proyectos y las tareas asociadas a cada uno mediante operaciones CRUD.
+Consume una API REST protegida mediante autenticación **JWT** y permite realizar operaciones CRUD sobre proyectos y sus tareas.
 
 ## Demo
-
-Aplicación desplegada en GitHub Pages:
 
 https://aarodriguezperez.github.io/TaskFlow/
 
@@ -20,36 +18,31 @@ https://github.com/aarodriguezperez/TaskFlow
 
 ### Autenticación
 
-- Inicio de sesión mediante usuario y contraseña.
-- Autenticación basada en JWT.
-- Cierre de sesión.
+- Inicio y cierre de sesión.
+- Autenticación mediante JWT.
+- Protección de rutas privadas.
+- Envío automático del token mediante Axios.
 
 ### Proyectos
 
-La pantalla principal muestra los proyectos disponibles en formato de cards.
-
-Es posible:
-
-- Consultar todos los proyectos.
-- Crear un nuevo proyecto.
-- Editar un proyecto.
-- Eliminar un proyecto.
-- Abrir una página independiente para administrar cada proyecto.
+- Consultar proyectos.
+- Crear proyectos.
+- Editar proyectos.
+- Eliminar proyectos.
+- Acceder al detalle de cada proyecto.
 
 ### Tareas
 
-Cada proyecto cuenta con su propia página para administrar sus tareas.
+Dentro de cada proyecto es posible:
 
-Es posible:
-
-- Consultar las tareas de un proyecto.
-- Crear una nueva tarea.
-- Editar una tarea.
-- Eliminar una tarea.
-- Modificar el estado de una tarea.
+- Consultar tareas.
+- Crear tareas.
+- Editar tareas.
+- Eliminar tareas.
+- Cambiar su estado.
 - Definir prioridad.
-- Asignar un responsable.
-- Definir una fecha límite.
+- Asignar responsable.
+- Definir fecha límite.
 
 ---
 
@@ -62,16 +55,14 @@ Es posible:
 - Axios
 - React Router
 - JWT
-- Git
-- GitHub
 - GitHub Actions
 - GitHub Pages
 
 ---
 
-## Arquitectura del frontend
+## Arquitectura
 
-El proyecto separa las responsabilidades principales entre páginas, componentes, hooks, servicios y contexto.
+El proyecto separa responsabilidades entre páginas, componentes, hooks, servicios y contexto.
 
 ```text
 Page
@@ -85,7 +76,7 @@ Axios
 REST API
 ```
 
-Por ejemplo, para consultar las tareas de un proyecto:
+Ejemplo:
 
 ```text
 ProjectPage
@@ -94,12 +85,8 @@ useTasks(projectId)
     ↓
 taskService
     ↓
-httpClient
-    ↓
 GET /projects/{projectId}/tasks
 ```
-
-Esta separación permite mantener la lógica de consumo de la API fuera de los componentes visuales.
 
 ---
 
@@ -108,38 +95,11 @@ Esta separación permite mantener la lógica de consumo de la API fuera de los c
 ```text
 src/
 ├── components/
-│   ├── ProjectEditDialog.tsx
-│   ├── ProjectForm.tsx
-│   ├── ProjectList.tsx
-│   ├── TaskEditDialog.tsx
-│   ├── TaskForm.tsx
-│   └── TaskList.tsx
-│
 ├── config/
-│   └── apiUrl.ts
-│
 ├── context/
-│   └── AuthContext.tsx
-│
 ├── hooks/
-│   ├── useAuth.ts
-│   ├── useProject.ts
-│   ├── useProjectForm.ts
-│   ├── useProjects.ts
-│   ├── useTaskForm.ts
-│   └── useTasks.ts
-│
 ├── pages/
-│   ├── DashboardPage.tsx
-│   ├── LoginPage.tsx
-│   └── ProjectPage.tsx
-│
 ├── services/
-│   ├── authService.ts
-│   ├── httpClient.ts
-│   ├── projectService.ts
-│   └── taskService.ts
-│
 ├── App.tsx
 ├── main.tsx
 ├── ProtectedRoute.tsx
@@ -147,55 +107,14 @@ src/
 └── vite-env.d.ts
 ```
 
-### `components`
+### Carpetas principales
 
-Contiene los componentes reutilizables de la interfaz.
-
-Entre ellos se encuentran:
-
-- formularios para proyectos y tareas;
-- listas y cards;
-- diálogos de edición;
-- controles para cambiar estados;
-- botones de edición y eliminación.
-
-### `pages`
-
-Contiene las vistas principales de la aplicación.
-
-- `LoginPage.tsx`: inicio de sesión.
-- `DashboardPage.tsx`: listado y administración de proyectos.
-- `ProjectPage.tsx`: detalle de un proyecto y administración de sus tareas.
-
-### `hooks`
-
-Encapsula lógica reutilizable relacionada con carga de datos, formularios y estado.
-
-Ejemplos:
-
-- `useProjects`
-- `useProject`
-- `useTasks`
-- `useProjectForm`
-- `useTaskForm`
-- `useAuth`
-
-### `services`
-
-Contiene la comunicación con la API REST.
-
-- `authService.ts`
-- `projectService.ts`
-- `taskService.ts`
-- `httpClient.ts`
-
-### `context`
-
-`AuthContext` centraliza el estado de autenticación de la aplicación.
-
-### `config`
-
-Contiene configuraciones reutilizables, como la URL base de la API.
+- `components`: componentes reutilizables, formularios, listas y diálogos.
+- `pages`: vistas principales de la aplicación.
+- `hooks`: lógica reutilizable y manejo de estado.
+- `services`: comunicación con la API REST.
+- `context`: manejo global de autenticación.
+- `config`: configuración de la aplicación.
 
 ---
 
@@ -205,31 +124,17 @@ La aplicación utiliza **React Router**.
 
 | Ruta | Descripción |
 |---|---|
-| `/login` | Pantalla de inicio de sesión |
+| `/login` | Inicio de sesión |
 | `/dashboard` | Administración de proyectos |
-| `/projects/:projectId` | Detalle de un proyecto y sus tareas |
+| `/projects/:projectId` | Proyecto seleccionado y sus tareas |
 
-La ruta:
-
-```text
-/projects/:projectId
-```
-
-es dinámica.
-
-Por ejemplo:
-
-```text
-/projects/45
-```
-
-carga la información del proyecto con ID `45` y posteriormente consulta sus tareas.
+La ruta `/projects/:projectId` es dinámica y utiliza el ID del proyecto para consultar su información y tareas.
 
 ---
 
 ## Autenticación JWT
 
-El proceso de autenticación funciona de la siguiente manera:
+El flujo de autenticación es:
 
 ```text
 Login
@@ -240,140 +145,42 @@ API devuelve JWT
   ↓
 Token almacenado en localStorage
   ↓
-AuthContext mantiene el estado de autenticación
+AuthContext
   ↓
-Axios agrega el token a las peticiones
+Axios agrega Authorization: Bearer <token>
 ```
 
-Las peticiones autenticadas incluyen el header:
-
-```http
-Authorization: Bearer <token>
-```
-
-El cliente Axios utiliza un interceptor para agregar automáticamente el token cuando está disponible.
+Las rutas privadas utilizan `ProtectedRoute`. Si el usuario no está autenticado, es redirigido a `/login`.
 
 ---
 
-## Rutas protegidas
+## API
 
-Las páginas privadas se encuentran protegidas mediante `ProtectedRoute`.
+La comunicación con la API se realiza mediante una instancia centralizada de **Axios** (`httpClient`).
 
-Si el usuario no tiene una sesión válida, no puede acceder directamente a:
-
-```text
-/dashboard
-/projects/:projectId
-```
-
-y es redirigido hacia:
-
-```text
-/login
-```
-
----
-
-## Consumo de la API
-
-La comunicación con la API se realiza mediante **Axios**.
-
-Se utiliza una instancia centralizada:
-
-```text
-httpClient
-```
-
-que define:
-
-- URL base de la API.
-- Header `Content-Type`.
-- Token JWT.
-- Manejo común de errores HTTP.
-
----
-
-# Endpoints implementados
-
-## Autenticación
+### Projects
 
 | Método | Endpoint | Descripción |
 |---|---|---|
-| POST | `/auth/login` | Iniciar sesión y obtener JWT |
+| GET | `/projects` | Obtener proyectos |
+| GET | `/projects/{id}` | Obtener un proyecto |
+| POST | `/projects` | Crear proyecto |
+| PUT | `/projects/{id}` | Actualizar proyecto |
+| DELETE | `/projects/{id}` | Eliminar proyecto |
+| GET | `/projects/{id}/tasks` | Obtener tareas del proyecto |
 
----
-
-## Projects
-
-| Método | Endpoint | Descripción |
-|---|---|---|
-| GET | `/projects` | Obtener todos los proyectos |
-| GET | `/projects/{id}` | Obtener un proyecto por ID |
-| POST | `/projects` | Crear un proyecto |
-| PUT | `/projects/{id}` | Actualizar un proyecto |
-| DELETE | `/projects/{id}` | Eliminar un proyecto |
-| GET | `/projects/{id}/tasks` | Obtener las tareas de un proyecto |
-
----
-
-## Tasks
+### Tasks
 
 | Método | Endpoint | Descripción |
 |---|---|---|
-| POST | `/projects/{projectId}/tasks` | Crear una tarea dentro de un proyecto |
-| PUT | `/tasks/{id}` | Actualizar los datos de una tarea |
-| DELETE | `/tasks/{id}` | Eliminar una tarea |
-| PATCH | `/tasks/{id}/status` | Actualizar únicamente el estado |
-
----
-
-## Relación entre Projects y Tasks
-
-Una tarea pertenece a un proyecto.
-
-```text
-Project
-   │
-   ├── Task
-   ├── Task
-   └── Task
-```
-
-Por este motivo, para crear una tarea se utiliza el ID del proyecto en la URL:
-
-```http
-POST /projects/{projectId}/tasks
-```
-
-Ejemplo:
-
-```http
-POST /projects/45/tasks
-```
-
-Para consultar las tareas de ese proyecto:
-
-```http
-GET /projects/45/tasks
-```
+| POST | `/projects/{projectId}/tasks` | Crear tarea |
+| PUT | `/tasks/{id}` | Actualizar tarea |
+| DELETE | `/tasks/{id}` | Eliminar tarea |
+| PATCH | `/tasks/{id}/status` | Cambiar estado |
 
 ---
 
 ## Tareas
-
-Una tarea contiene información como:
-
-```text
-Título
-Descripción
-Estado
-Prioridad
-Responsable
-Fecha límite
-Proyecto
-```
-
-### Estados
 
 Los estados disponibles son:
 
@@ -383,22 +190,6 @@ IN_PROGRESS
 DONE
 ```
 
-El estado se modifica utilizando:
-
-```http
-PATCH /tasks/{id}/status
-```
-
-Por ejemplo:
-
-```json
-{
-  "status": "IN_PROGRESS"
-}
-```
-
-### Prioridades
-
 Las prioridades disponibles son:
 
 ```text
@@ -407,130 +198,39 @@ MED
 HIGH
 ```
 
-### Responsable
-
-Las tareas pueden tener un responsable mediante:
-
-```text
-assigneeId
-```
-
-Una tarea debe contar con un responsable asignado para poder pasar al estado:
-
-```text
-DONE
-```
-
----
-
-## PUT y PATCH
-
-La aplicación utiliza ambos métodos dependiendo del tipo de actualización.
-
-### PUT
-
-Se utiliza para actualizar los datos generales de un recurso.
-
-Ejemplo:
-
-```http
-PUT /tasks/{id}
-```
-
-Puede modificar datos como:
+Una tarea puede contener:
 
 - título;
 - descripción;
 - prioridad;
 - responsable;
-- fecha límite.
+- fecha límite;
+- estado.
 
-### PATCH
-
-Se utiliza para modificar únicamente una parte específica del recurso.
-
-En TaskFlow se utiliza para actualizar solamente el estado:
-
-```http
-PATCH /tasks/{id}/status
-```
+`PUT` se utiliza para actualizar los datos generales de una tarea, mientras que `PATCH` se utiliza únicamente para modificar su estado.
 
 ---
 
-## Formularios
+## Formularios y manejo de estado
 
-La aplicación incluye formularios para:
+La aplicación utiliza formularios controlados con React para crear y editar proyectos y tareas.
 
-- crear proyectos;
-- editar proyectos;
-- crear tareas;
-- editar tareas.
-
-Los formularios utilizan estado controlado mediante React.
-
-Entre los campos utilizados se encuentran:
-
-### Proyecto
-
-- Nombre.
-- Descripción.
-
-### Tarea
-
-- Título.
-- Descripción.
-- Prioridad.
-- Responsable.
-- Fecha límite.
-
-Los formularios también controlan estados como:
-
-```text
-submitting
-error
-valid
-```
-
-para evitar envíos inválidos o múltiples peticiones simultáneas.
-
----
-
-## Manejo de estado
-
-Los hooks manejan estados relacionados con las peticiones HTTP.
-
-Por ejemplo:
+Los hooks administran estados como:
 
 ```text
 loading
 error
+submitting
 data
-refetch
 ```
 
-Esto permite representar diferentes estados en la interfaz.
-
-```text
-Petición iniciada
-      ↓
-loading = true
-      ↓
-API
-  ├── éxito → actualizar datos
-  └── error → mostrar mensaje
-      ↓
-loading = false
-```
-
-Después de operaciones como POST, PUT, DELETE o PATCH se realiza un `refetch` para mantener la interfaz sincronizada con la API.
+Después de realizar operaciones POST, PUT, PATCH o DELETE se actualizan los datos para mantener la interfaz sincronizada con la API.
 
 ---
 
 ## Interfaz
 
-La interfaz fue desarrollada utilizando **Material UI**.
-
-El diseño utiliza:
+La interfaz fue desarrollada con **Material UI** e incluye:
 
 - modo oscuro;
 - cards para proyectos;
@@ -538,16 +238,6 @@ El diseño utiliza:
 - chips para información de tareas;
 - botones e iconos para acciones;
 - diseño responsive.
-
-El Dashboard muestra los proyectos en cards.
-
-Al seleccionar un proyecto se navega a una ruta independiente:
-
-```text
-/projects/:projectId
-```
-
-desde donde se administran sus tareas.
 
 ---
 
@@ -557,11 +247,6 @@ Clonar el repositorio:
 
 ```bash
 git clone https://github.com/aarodriguezperez/TaskFlow.git
-```
-
-Entrar al proyecto:
-
-```bash
 cd TaskFlow
 ```
 
@@ -571,75 +256,37 @@ Instalar dependencias:
 npm install
 ```
 
-También puede utilizarse:
-
-```bash
-npm ci
-```
-
-cuando existe un `package-lock.json`.
-
----
-
-## Ejecutar en desarrollo
+Ejecutar en desarrollo:
 
 ```bash
 npm run dev
 ```
 
-Vite mostrará en la terminal la URL local de la aplicación.
-
-Normalmente:
-
-```text
-http://localhost:5173/TaskFlow/
-```
-
----
-
-## Build de producción
-
-Para comprobar que TypeScript y Vite pueden generar correctamente la aplicación:
+Generar build de producción:
 
 ```bash
 npm run build
 ```
 
-El proceso genera los archivos de producción dentro de:
-
-```text
-dist/
-```
-
 ---
 
-## GitHub Actions
+## GitHub Actions y Deploy
 
-El proyecto utiliza **GitHub Actions** para automatizar el proceso de integración y despliegue.
+El proyecto utiliza **GitHub Actions** para instalar dependencias, compilar la aplicación y realizar el despliegue en **GitHub Pages**.
 
-El workflow realiza tareas como:
+Flujo general:
 
 ```text
 Checkout
    ↓
-Configurar Node.js
+Node.js
    ↓
 npm ci
    ↓
 npm run build
    ↓
-Generar artefacto
-   ↓
 Deploy
 ```
-
-Esto permite validar automáticamente que el proyecto pueda instalar dependencias y compilar correctamente.
-
----
-
-## GitHub Pages
-
-La aplicación se encuentra desplegada mediante **GitHub Pages**.
 
 La configuración de Vite utiliza:
 
@@ -647,49 +294,9 @@ La configuración de Vite utiliza:
 base: '/TaskFlow/'
 ```
 
-para permitir que los archivos estáticos funcionen correctamente bajo la ruta del repositorio.
-
-Demo:
+Aplicación desplegada:
 
 https://aarodriguezperez.github.io/TaskFlow/
-
----
-
-## Decisiones de diseño
-
-### Separación de servicios
-
-La lógica HTTP se encuentra en archivos `service` para evitar acoplarla directamente a los componentes visuales.
-
-### Uso de hooks
-
-Los hooks encapsulan lógica relacionada con:
-
-- carga de información;
-- formularios;
-- loading;
-- errores;
-- actualización de datos.
-
-### AuthContext
-
-La autenticación se centraliza mediante Context para evitar administrar el token de forma independiente en cada componente.
-
-### Página independiente por proyecto
-
-Cada proyecto tiene una ruta dinámica:
-
-```text
-/projects/:projectId
-```
-
-Esto permite mantener separada la administración de proyectos y tareas y conservar el contexto del proyecto incluso al recargar la página.
-
-### PUT y PATCH separados
-
-`PUT` se utiliza para modificar los datos generales de una tarea.
-
-`PATCH` se utiliza exclusivamente para cambiar su estado.
 
 ---
 
