@@ -15,10 +15,24 @@ httpClient.interceptors.request.use((config) => {
   return config
 })
 
+httpClient.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (axios.isAxiosError(error) && error.response?.status === 401) {
+      localStorage.removeItem(TOKEN_KEY)
+
+      const loginUrl = `${import.meta.env.BASE_URL}login`
+      window.location.href = loginUrl
+    }
+
+    return Promise.reject(error)
+  },
+)
+
 export function getApiErrorMessage(err: unknown): string {
   if (axios.isAxiosError(err)) {
     if (err.response?.status === 401) {
-      return 'Usuario o contraseña incorrectos.'
+      return 'Sesión expirada o usuario no autorizado.'
     }
     const status = err.response?.status ?? 'network'
     return `Error HTTP ${status}: ${err.message}`

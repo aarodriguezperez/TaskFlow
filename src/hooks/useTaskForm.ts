@@ -20,12 +20,28 @@ export function useTaskForm({
   const [error, setError] = useState<string | null>(null)
   const [assigneeId, setAssigneeId] = useState<number | null>(null)
 
+  const validTitle = title.trim().length >= 3
+
+  const validDueDate =
+    dueDate === '' || !Number.isNaN(Date.parse(dueDate))
+
   const valid =
     projectId !== null &&
-    title.trim().length > 0
+    validTitle &&
+    validDueDate
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
+
+    if (title.trim().length < 3) {
+      setError('El título debe tener al menos 3 caracteres.')
+      return
+    }
+
+    if (dueDate && Number.isNaN(Date.parse(dueDate))) {
+      setError('La fecha límite no es válida.')
+      return
+    }
 
     if (!valid || submitting || projectId === null) {
       return

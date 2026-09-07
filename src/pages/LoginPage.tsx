@@ -8,7 +8,7 @@ import Typography from '@mui/material/Typography'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
-import { API_URL } from '../types'
+import { getApiBaseUrl } from '../config/apiUrl'
 
 export function LoginPage() {
   const { login } = useAuth()
@@ -17,6 +17,7 @@ export function LoginPage() {
   const [password, setPassword] = useState('')
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
+  const apiUrl = getApiBaseUrl()
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -48,7 +49,7 @@ export function LoginPage() {
             {error && <Alert severity="error">{error}</Alert>}
 
             <Alert severity="info" variant="outlined">
-              API: <strong>{API_URL}</strong>
+              API: <strong>{apiUrl}</strong>
             </Alert>
 
             <TextField

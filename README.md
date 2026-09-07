@@ -232,7 +232,7 @@ Después de realizar operaciones POST, PUT, PATCH o DELETE se actualizan los dat
 
 La interfaz fue desarrollada con **Material UI** e incluye:
 
-- modo oscuro;
+- tema oscuro fijo personalizado mediante Material UI;
 - cards para proyectos;
 - dialogs para formularios;
 - chips para información de tareas;

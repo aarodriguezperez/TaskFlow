@@ -1,6 +1,5 @@
 import { createContext, useState, type ReactNode } from 'react'
 import * as authService from '../services/authService'
-import { getApiErrorMessage } from '../services/httpClient'
 
 interface LoginResult {
   success: boolean
@@ -25,7 +24,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setIsAuthenticated(true)
       return { success: true }
     } catch (err) {
-      return { success: false, error: getApiErrorMessage(err) }
+      return {
+        success: false,
+        error: authService.getLoginErrorMessage(err),
+      }
     }
   }
 
